@@ -1,0 +1,33 @@
+body {
+    background-color: #252525;
+    font-family: 'Courier New', Courier, monospace;
+    color: #FFFFFF;
+}
+
+#img-loaded1, #img-loaded2 {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+
+.div-container-images {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.section-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.canvas-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 500px;
+    background-color: #888888;
+}

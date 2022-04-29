@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Editor de Imagens</title>
+</head>
+<body>
+    <header></header>
+    <main>
+        <div class="div-container-images">
+            <section class="section-container">
+                <h3>Imagem 1</h3>
+                <img src="" alt="" id="img-loaded1">
+                <div class="canvas-container">
+                    <canvas id="canvas-img1"></canvas>
+                </div>
+                <input type="file" id="input-file1" onchange="openFile1()">
+                <!-- <button onclick="pixel1()">Pixel</button> -->
+            </section>
+            <section class="section-container">
+                <h3>Imagem 2</h3>
+                <img src="" alt="" id="img-loaded2">
+                <div class="canvas-container">
+                    <canvas id="canvas-img2"></canvas>
+                </div>
+                <input type="file" id="input-file2" onchange="openFile2()">
+                <!-- <button onclick="pixel2()">Pixel</button> -->
+            </section>
+        </div>
+        <button type="button" style="height: 50px; margin: 50px;" onclick="soma()">Soma</button>
+        <div class="div-container-result">
+            <section class="section-container">
+                <h3>Imagem Resultado</h3>
+                <img src="" alt="" id="img-result">
+                <div class="canvas-container">
+                    <canvas id="canvas-result"></canvas>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+<script src="script.js"></script>
+</html>
