@@ -16,7 +16,7 @@
                 <div class="canvas-container">
                     <canvas id="canvas-img1"></canvas>
                 </div>
-                <input type="file" id="input-file1" onchange="openFile1()">
+                <input type="file" id="input-file1" onchange="openFile('1')">
                 <!-- <button onclick="pixel1()">Pixel</button> -->
             </section>
             <section class="section-container">
@@ -25,11 +25,12 @@
                 <div class="canvas-container">
                     <canvas id="canvas-img2"></canvas>
                 </div>
-                <input type="file" id="input-file2" onchange="openFile2()">
+                <input type="file" id="input-file2" onchange="openFile('2')">
                 <!-- <button onclick="pixel2()">Pixel</button> -->
             </section>
         </div>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="soma()">Soma</button>
+        <button type="button" style="height: 50px; margin: 50px;" onclick="soma()">Somar</button>
+        <button type="button" style="height: 50px; margin: 50px;" onclick="subtrai()">Subrair</button>
         <div class="div-container-result">
             <section class="section-container">
                 <h3>Imagem Resultado</h3>
