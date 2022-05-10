@@ -47,31 +47,7 @@ function openFile(idx) {
     readFile.readAsDataURL(file);
 }
 
-// function pixel1() {
-//     var imageData = ctx.getImageData(0, 0, canvas1.width, canvas1.height);
-//     var data = imageData.data;
-//     for(i = 0; i < data.length; i++) {
-//         data[i] = data[i] - 0;
-//         data[i + 1] = data[i + 1] - 0;
-//         data[i + 2] = data[i + 2] - 0;
-//         data[i + 3] = data[i + 3] + 100;
-//     }
-//     ctx1.putImageData(imageData, 0, 0);
-// }
-
-// function pixel2() {
-//     var imageData = ctx.getImageData(0, 0, canvas2.width, canvas2.height);
-//     var data = imageData.data;
-//     for(i = 0; i < data.length; i++) {
-//         data[i] = data[i] - 0;
-//         data[i + 1] = data[i + 1] - 0;
-//         data[i + 2] = data[i + 2] - 0;
-//         data[i + 3] = data[i + 3] + 100;
-//     }
-//     ctx2.putImageData(imageData, 0, 0);
-// }
-
-function soma() {
+function somar() {
     ctxR.clearRect(0, 0, 500, 500);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
@@ -92,7 +68,7 @@ function soma() {
     ctxR.putImageData(imageR, 0, 0);
 }
 
-function subtrai() {
+function subtrair() {
     ctxR.clearRect(0, 0, 500, 500);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
@@ -106,6 +82,50 @@ function subtrai() {
         matrixR[i] -= matrix2[i];//R
         matrixR[i+1] -= matrix2[i+1];//G
         matrixR[i+2] -= matrix2[i+2];//B
+    }
+
+    canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
+    canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
+    
+    ctxR.putImageData(imageR, 0, 0);
+}
+
+function multiplicar() {
+    ctxR.clearRect(0, 0, 500, 500);
+    var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrix1 = image1.data;
+    var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
+    var matrix2 = image2.data;
+    var imageR = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrixR = imageR.data;
+    console.log(matrixR)
+
+    for(i = 0; i < matrixR.length; i+=4) {
+        matrixR[i] *= matrix2[i];//R
+        matrixR[i+1] *= matrix2[i+1];//G
+        matrixR[i+2] *= matrix2[i+2];//B
+    }
+
+    canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
+    canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
+    
+    ctxR.putImageData(imageR, 0, 0);
+}
+
+function dividir() {
+    ctxR.clearRect(0, 0, 500, 500);
+    var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrix1 = image1.data;
+    var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
+    var matrix2 = image2.data;
+    var imageR = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrixR = imageR.data;
+    console.log(matrixR)
+
+    for(i = 0; i < matrixR.length; i+=4) {
+        matrixR[i] /= matrix2[i];//R
+        matrixR[i+1] /= matrix2[i+1];//G
+        matrixR[i+2] /= matrix2[i+2];//B
     }
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
