@@ -265,3 +265,26 @@ function not() {
 
     ctxR.putImageData(imageR, 0, 0);
 }
+
+function rgbTo8Bit() {
+    ctxR.clearRect(0, 0, 500, 500);
+    var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrix1 = image1.data;
+    var imageR = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrixR = imageR.data;
+
+    for(i = 0; i < matrixR.length; i+=4) {
+        for(j = 0; j < 3; j++) {
+            var bit = 0;
+            bit += matrix1[i+j];
+        }
+        matrixR[i] = bit/3;
+        matrixR[i+1] = bit/3;
+        matrixR[i+2] = bit/3;
+    }
+
+    canvasResult.width = canvas1.width;
+    canvasResult.height = canvas1.height;
+
+    ctxR.putImageData(imageR, 0, 0);
+}
