@@ -154,3 +154,25 @@ function media() {
 
     ctxR.putImageData(imageR, 0, 0);
 }
+
+function blending() {
+    ctxR.clearRect(0, 0, 500, 500);
+    var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrix1 = image1.data;
+    var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
+    var matrix2 = image2.data;
+    var imageR = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrixR = imageR.data;
+    var txMix = 0.8;
+
+    for(i = 0; i < matrixR.length; i+=4) {
+        matrixR[i] = txMix * matrixR[i] + (1 - txMix) * matrix2[i];//R
+        matrixR[i+1] = txMix * matrixR[i+1] + (1 - txMix) * matrix2[i+1];//G
+        matrixR[i+2] = txMix * matrixR[i+2] + (1 - txMix) * matrix2[i+2];//B
+    }
+
+    canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
+    canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
+
+    ctxR.putImageData(imageR, 0, 0);
+}
