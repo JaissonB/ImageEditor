@@ -4,8 +4,17 @@ var canvas2 = document.getElementById('canvas-img2');
 var ctx2 = canvas2.getContext('2d');
 var canvasResult = document.getElementById('canvas-result');
 var ctxR = canvasResult.getContext('2d');
-canvasResult.width = 500;
-canvasResult.height = 500;
+const buttonDownload = document.getElementById('download');
+canvasResult.width = 400;
+canvasResult.height = 400;
+
+document.getElementById('upload-file1').addEventListener('click', function() {
+    document.getElementById('input-file1').click();
+})
+
+document.getElementById('upload-file2').addEventListener('click', function() {
+    document.getElementById('input-file2').click();
+})
 
 function openFile(idx) {
     var file = document.getElementById('input-file' + idx).files[0];
@@ -22,21 +31,21 @@ function openFile(idx) {
             const { width, height } = image;
             if (idx == 1) {
                 if (width >= height) {
-                    canvas1.width = 500;
-                    canvas1.height = 500 * height / width;
+                    canvas1.width = 400;
+                    canvas1.height = 400 * height / width;
                 } else if (height > width) {
-                    canvas1.height = 500;
-                    canvas1.width = 500 * width / height;
+                    canvas1.height = 400;
+                    canvas1.width = 400 * width / height;
                 }
                 ctx1.clearRect(0, 0, width, height);
                 ctx1.drawImage(image, 0, 0, width, height, 0, 0, canvas1.width, canvas1.height);
             } else if (idx == 2) {
                 if (width >= height) {
-                    canvas2.width = 500;
-                    canvas2.height = 500 * height / width;
+                    canvas2.width = 400;
+                    canvas2.height = 400 * height / width;
                 } else if (height > width) {
-                    canvas2.height = 500;
-                    canvas2.width = 500 * width / height;
+                    canvas2.height = 400;
+                    canvas2.width = 400 * width / height;
                 }
                 ctx2.clearRect(0, 0, width, height);
                 ctx2.drawImage(image, 0, 0, width, height, 0, 0, canvas2.width, canvas2.height);
@@ -48,7 +57,7 @@ function openFile(idx) {
 }
 
 function somar() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -69,7 +78,7 @@ function somar() {
 }
 
 function subtrair() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -91,7 +100,7 @@ function subtrair() {
 }
 
 function multiplicar() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -113,7 +122,7 @@ function multiplicar() {
 }
 
 function dividir() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -135,7 +144,7 @@ function dividir() {
 }
 
 function media() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -156,7 +165,7 @@ function media() {
 }
 
 function blending() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -178,7 +187,7 @@ function blending() {
 }
 
 function and() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -201,7 +210,7 @@ function and() {
 }
 
 function or() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -224,7 +233,7 @@ function or() {
 }
 
 function xor() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var image2 = ctx2.getImageData(0, 0, canvas2.width, canvas2.height);
@@ -247,7 +256,7 @@ function xor() {
 }
 
 function not() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var imageR = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -267,7 +276,7 @@ function not() {
 }
 
 function rgbTo8Bit() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var imageR = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -290,7 +299,7 @@ function rgbTo8Bit() {
 }
 
 function rgbTo1Bit() {
-    ctxR.clearRect(0, 0, 500, 500);
+    ctxR.clearRect(0, 0, 400, 400);
     var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
     var matrix1 = image1.data;
     var imageR = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
@@ -312,3 +321,10 @@ function rgbTo1Bit() {
 
     ctxR.putImageData(imageR, 0, 0);
 }
+
+buttonDownload.addEventListener('click', function() {
+    const a = document.createElement('a');
+    a.download = 'ImageEditor.png';
+    a.href = canvasResult.toDataURL();
+    a.click();
+})

@@ -13,41 +13,46 @@
             <section class="section-container">
                 <h3>Imagem 1</h3>
                 <img src="" alt="" id="img-loaded1">
-                <div class="canvas-container">
+                <div class="canvas-container" id="div-canvas1">
                     <canvas id="canvas-img1"></canvas>
                 </div>
-                <input type="file" id="input-file1" onchange="openFile('1')">
+                <input type="file" id="input-file1" class="input-files" onchange="openFile('1')">
+                <button id="upload-file1" class="button-upload">Carregar Imagem</button>
                 <!-- <button onclick="pixel1()">Pixel</button> -->
             </section>
             <section class="section-container">
                 <h3>Imagem 2</h3>
                 <img src="" alt="" id="img-loaded2">
-                <div class="canvas-container">
+                <div class="canvas-container" id="div-canvas2">
                     <canvas id="canvas-img2"></canvas>
                 </div>
-                <input type="file" id="input-file2" onchange="openFile('2')">
+                <input type="file" id="input-file2" class="input-files" onchange="openFile('2')">
+                <button id="upload-file2" class="button-upload">Carregar Imagem</button>
                 <!-- <button onclick="pixel2()">Pixel</button> -->
             </section>
         </div>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="somar()">Somar</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="subtrair()">Subrair</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="multiplicar()">Multiplicar</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="dividir()">Dividir</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="media()">Média</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="blending()">Blending</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="and()">AND</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="or()">OR</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="xor()">XOR</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="not()">NOT</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="rgbTo8Bit()">RGB to Gray</button>
-        <button type="button" style="height: 50px; margin: 50px;" onclick="rgbTo1Bit()">RGB to 1Bit</button>
+        <div class="div-buttons">
+            <button type="button" class="button-default" onclick="somar()">Somar</button>
+            <button type="button" class="button-default" onclick="subtrair()">Subrair</button>
+            <button type="button" class="button-default" onclick="multiplicar()">Multiplicar</button>
+            <button type="button" class="button-default" onclick="dividir()">Dividir</button>
+            <button type="button" class="button-default" onclick="media()">Média</button>
+            <button type="button" class="button-default" onclick="blending()">Blending</button>
+            <button type="button" class="button-default" onclick="and()">AND</button>
+            <button type="button" class="button-default" onclick="or()">OR</button>
+            <button type="button" class="button-default" onclick="xor()">XOR</button>
+            <button type="button" class="button-default" onclick="not()">NOT</button>
+            <button type="button" class="button-default" onclick="rgbTo8Bit()">To Gray</button>
+            <button type="button" class="button-default" onclick="rgbTo1Bit()">To Binário</button>
+        </div>
         <div class="div-container-result">
             <section class="section-container">
-                <h3>Imagem Resultado</h3>
+                <h3>Resultado</h3>
                 <img src="" alt="" id="img-result">
                 <div class="canvas-container">
                     <canvas id="canvas-result"></canvas>
                 </div>
+                <button id="download" class="button-upload">Exportar Imagem</button>
             </section>
         </div>
     </main>
