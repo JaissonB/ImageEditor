@@ -288,3 +288,27 @@ function rgbTo8Bit() {
 
     ctxR.putImageData(imageR, 0, 0);
 }
+
+function rgbTo1Bit() {
+    ctxR.clearRect(0, 0, 500, 500);
+    var image1 = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrix1 = image1.data;
+    var imageR = ctx1.getImageData(0, 0, canvas1.width, canvas1.height);
+    var matrixR = imageR.data;
+
+    for(i = 0; i < matrixR.length; i+=4) {
+        for(j = 0; j < 3; j++) {
+            var bit = 0;
+            bit += matrix1[i+j];
+        }
+        bit = bit >= 128 ? 255 : 0;
+        matrixR[i] = bit;
+        matrixR[i+1] = bit;
+        matrixR[i+2] = bit;
+    }
+
+    canvasResult.width = canvas1.width;
+    canvasResult.height = canvas1.height;
+
+    ctxR.putImageData(imageR, 0, 0);
+}
