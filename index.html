@@ -18,6 +18,11 @@
                 </div>
                 <input type="file" id="input-file1" class="input-files" onchange="openFile('1')">
                 <button id="upload-file1" class="button-upload">Carregar Imagem</button>
+                <div>
+                    <button type="button" class="button-default" onclick="rgbTo8Bit1()">To Gray</button>
+                    <button type="button" class="button-default" onclick="rgbTo1Bit1()">To Binário</button>
+                    <button type="button" class="button-default" onclick="not1()">NOT</button>
+                </div>
                 <!-- <button onclick="pixel1()">Pixel</button> -->
             </section>
             <section class="section-container">
@@ -28,6 +33,11 @@
                 </div>
                 <input type="file" id="input-file2" class="input-files" onchange="openFile('2')">
                 <button id="upload-file2" class="button-upload">Carregar Imagem</button>
+                <div>
+                    <button type="button" class="button-default" onclick="rgbTo8Bit2()">To Gray</button>
+                    <button type="button" class="button-default" onclick="rgbTo1Bit2()">To Binário</button>
+                    <button type="button" class="button-default" onclick="not2()">NOT</button>
+                </div>
                 <!-- <button onclick="pixel2()">Pixel</button> -->
             </section>
         </div>
@@ -41,9 +51,6 @@
             <button type="button" class="button-default" onclick="and()">AND</button>
             <button type="button" class="button-default" onclick="or()">OR</button>
             <button type="button" class="button-default" onclick="xor()">XOR</button>
-            <button type="button" class="button-default" onclick="not()">NOT</button>
-            <button type="button" class="button-default" onclick="rgbTo8Bit()">To Gray</button>
-            <button type="button" class="button-default" onclick="rgbTo1Bit()">To Binário</button>
         </div>
         <div class="div-container-result">
             <section class="section-container">
