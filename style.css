@@ -1,7 +1,29 @@
 body {
+    margin: 0;
     color: #FFFFFF;
     background-color: #252525;
     font-family: 'Courier New', Courier, monospace;
+}
+
+main {
+    margin-top: 150px;
+}
+
+.div-header {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, .4);
+}
+
+.div-header >* {
+    margin: 10px;
 }
 
 #img-loaded1, #img-loaded2 {
@@ -86,10 +108,6 @@ body {
     justify-content: center;
 }
 
-.div-buttons button {
-    border: 3px #0a1a61 solid;
-}
-
 .button-upload {
     width: 150px;
     height: 45px;
@@ -122,4 +140,16 @@ body {
 
 .input-files {
     display: none;
+}
+
+footer {
+    left: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    margin-top: 60px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, .4);
 }
