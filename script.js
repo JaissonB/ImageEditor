@@ -81,66 +81,102 @@ function returnVariables() {
 
 function somar() {
     var vari = returnVariables();
-    for(i = 0; i < vari.matrixR.length; i+=4) {
-        vari.matrixR[i] += vari.matrix2[i];//R
-        vari.matrixR[i+1] += vari.matrix2[i+1];//G
-        vari.matrixR[i+2] += vari.matrix2[i+2];//B
+    const valSoma = parseFloat(document.getElementById('input-somar').value);
+
+    if (valSoma > 0) {
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] += valSoma;//R
+            vari.matrixR[i+1] += valSoma;//G
+            vari.matrixR[i+2] += valSoma;//B
+        }
+    } else {
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] += vari.matrix2[i];//R
+            vari.matrixR[i+1] += vari.matrix2[i+1];//G
+            vari.matrixR[i+2] += vari.matrix2[i+2];//B
+        }
     }
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
     canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function subtrair() {
     var vari = returnVariables();
+    const valSub = parseFloat(document.getElementById('input-subtrair').value);
 
-    for(i = 0; i < vari.matrixR.length; i+=4) {
-        vari.matrixR[i] -= vari.matrix2[i];//R
-        vari.matrixR[i+1] -= vari.matrix2[i+1];//G
-        vari.matrixR[i+2] -= vari.matrix2[i+2];//B
+    if(valSub > 0) {
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] -= valSub;
+            vari.matrixR[i+1] -= valSub;
+            vari.matrixR[i+2] -= valSub;
+        }
+    } else {
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] -= vari.matrix2[i];
+            vari.matrixR[i+1] -= vari.matrix2[i+1];
+            vari.matrixR[i+2] -= vari.matrix2[i+2];
+        }
     }
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
     canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-    
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function multiplicar() {
     var vari = returnVariables();
+    const valMult = parseFloat(document.getElementById('input-multiplicar').value);
 
-    for(i = 0; i < vari.matrixR.length; i+=4) {
-        vari.matrixR[i] *= vari.matrix2[i];//R
-        vari.matrixR[i+1] *= vari.matrix2[i+1];//G
-        vari.matrixR[i+2] *= vari.matrix2[i+2];//B
+    if(valMult > 0) {
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] *= valMult;
+            vari.matrixR[i+1] *= valMult;
+            vari.matrixR[i+2] *= valMult;
+        }
+    } else {
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] *= vari.matrix2[i];//R
+            vari.matrixR[i+1] *= vari.matrix2[i+1];//G
+            vari.matrixR[i+2] *= vari.matrix2[i+2];//B
+        }
     }
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
     canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-    
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function dividir() {
     var vari = returnVariables();
+    const valDiv = parseFloat(document.getElementById('input-dividir').value);
 
-    for(i = 0; i < vari.matrixR.length; i+=4) {
-        vari.matrixR[i] /= vari.matrix2[i];//R
-        vari.matrixR[i+1] /= vari.matrix2[i+1];//G
-        vari.matrixR[i+2] /= vari.matrix2[i+2];//B
+    if(valDiv > 0) {
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] /= valDiv;
+            vari.matrixR[i+1] /= valDiv;
+            vari.matrixR[i+2] /= valDiv;
+        }
+    } else {
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] /= vari.matrix2[i];
+            vari.matrixR[i+1] /= vari.matrix2[i+1];
+            vari.matrixR[i+2] /= vari.matrix2[i+2];
+        }
     }
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
     canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-    
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function media() {
     var vari = returnVariables();
-
     for(i = 0; i < vari.matrixR.length; i+=4) {
         vari.matrixR[i] = (vari.matrixR[i] + vari.matrix2[i]) * 0.5;//R
         vari.matrixR[i+1] = (vari.matrixR[i+1] + vari.matrix2[i+1]) * 0.5;//G
@@ -149,29 +185,38 @@ function media() {
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
     canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function blending() {
     var vari = returnVariables();
-    var txMix = 0.8;
+    const valTaxaMix = parseFloat(document.getElementById('input-blending').value);
 
-    for(i = 0; i < vari.matrixR.length; i+=4) {
-        vari.matrixR[i] = txMix * vari.matrixR[i] + (1 - txMix) * vari.matrix2[i];//R
-        vari.matrixR[i+1] = txMix * vari.matrixR[i+1] + (1 - txMix) * vari.matrix2[i+1];//G
-        vari.matrixR[i+2] = txMix * vari.matrixR[i+2] + (1 - txMix) * vari.matrix2[i+2];//B
+    if(valTaxaMix > -1) {
+        removeError();
+        for(i = 0; i < vari.matrixR.length; i+=4) {
+            vari.matrixR[i] = valTaxaMix * vari.matrixR[i] + (1 - valTaxaMix) * vari.matrix2[i];//R
+            vari.matrixR[i+1] = valTaxaMix * vari.matrixR[i+1] + (1 - valTaxaMix) * vari.matrix2[i+1];//G
+            vari.matrixR[i+2] = valTaxaMix * vari.matrixR[i+2] + (1 - valTaxaMix) * vari.matrix2[i+2];//B
+        }
+        console.log("QUACK")
+        canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
+        canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
+        ctxR.putImageData(vari.imageR, 0, 0);
+    } else {
+        document.getElementById('input-blending').classList.add('input-error');
+        document.querySelector('.span-error').style.display = 'block';
     }
+}
 
-    canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
-    canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-
-    ctxR.putImageData(vari.imageR, 0, 0);
+function removeError() {
+    document.getElementById('input-blending').classList.remove('input-error');
+    document.querySelector('.span-error').style.display = 'none';
 }
 
 function and() {
     var vari = returnVariables();
-
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
             var bin1 = vari.matrix1[i+j] >= 128 ? 255 : 0;
@@ -182,13 +227,12 @@ function and() {
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
     canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function or() {
     var vari = returnVariables();
-
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
             var bin1 = vari.matrix1[i+j] >= 128 ? 255 : 0;
@@ -199,13 +243,12 @@ function or() {
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
     canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function xor() {
     var vari = returnVariables();
-
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
             var bin1 = vari.matrix1[i+j] >= 128 ? 255 : 0;
@@ -216,13 +259,12 @@ function xor() {
 
     canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
     canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function not1() {
     var vari = returnVariables();
-
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
             var bit = vari.matrix1[i+j] >= 128 ? 0 : 255;
@@ -232,13 +274,14 @@ function not1() {
 
     canvasResult.width = canvas1.width;
     canvasResult.height = canvas1.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function not2() {
     var vari = returnVariables();
-
+    vari.matrixR = vari.matrix2;
+    vari.imageR = vari.image2;
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
             var bit = vari.matrix2[i+j] >= 128 ? 0 : 255;
@@ -248,16 +291,15 @@ function not2() {
 
     canvasResult.width = canvas2.width;
     canvasResult.height = canvas2.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function rgbTo8Bit1() {
     var vari = returnVariables();
-
     for(i = 0; i < vari.matrixR.length; i+=4) {
+        var bit = 0;
         for(j = 0; j < 3; j++) {
-            var bit = 0;
             bit += vari.matrix1[i+j];
         }
         vari.matrixR[i] = bit/3;
@@ -267,16 +309,17 @@ function rgbTo8Bit1() {
 
     canvasResult.width = canvas1.width;
     canvasResult.height = canvas1.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function rgbTo8Bit2() {
     var vari = returnVariables();
-
+    vari.matrixR = vari.matrix2;
+    vari.imageR = vari.image2;
     for(i = 0; i < vari.matrixR.length; i+=4) {
+        var bit = 0;
         for(j = 0; j < 3; j++) {
-            var bit = 0;
             bit += vari.matrix2[i+j];
         }
         vari.matrixR[i] = bit/3;
@@ -286,13 +329,12 @@ function rgbTo8Bit2() {
 
     canvasResult.width = canvas2.width;
     canvasResult.height = canvas2.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function rgbTo1Bit1() {
     var vari = returnVariables();
-
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
             var bit = 0;
@@ -306,13 +348,14 @@ function rgbTo1Bit1() {
 
     canvasResult.width = canvas1.width;
     canvasResult.height = canvas1.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }
 
 function rgbTo1Bit2() {
     var vari = returnVariables();
-
+    vari.matrixR = vari.matrix2;
+    vari.imageR = vari.image2;
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
             var bit = 0;
@@ -326,6 +369,6 @@ function rgbTo1Bit2() {
 
     canvasResult.width = canvas2.width;
     canvasResult.height = canvas2.height;
-
     ctxR.putImageData(vari.imageR, 0, 0);
+    removeError();
 }

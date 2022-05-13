@@ -34,13 +34,18 @@ body {
 }
 
 .div-container {
-    display: flex;
     margin: 15px;
+    display: flex;
     border-radius: 10px;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     border: 1px #888888 solid;
+}
+
+.div-container >span {
+    margin: 0 5px;
+    font-size: 12px;
 }
 
 .div-flex {
@@ -53,13 +58,25 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
-    justify-content: center;
 }
 
 .input-number {
-    width: 70px;
+    width: 65px;
+    border-width: 0;
+    border-radius: 5px;
     text-align: center;
     margin-bottom: 10px;
+}
+
+.input-error {
+    border: 2px #FF0000 solid
+}
+
+.span-error {
+    display: none;
+    font-size: 11px;
+    margin-top: -8px;
+    color: #FF0000;
 }
 
 .div-buttons {

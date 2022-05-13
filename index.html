@@ -48,6 +48,8 @@
         <div class="div-buttons">
             <div class="div-container">
                 <p>Operações Aritméticas:</p>
+                <span>*Se os inputs forem preenchidos as alterações serão feitas apenas na imagem 1.</span>
+                <span>Com exceção do campo Blending que é obrigatório preencher o input, e usará as duas imagens.</span>
                 <div class="div-flex">
                     <div class="div-button-input">
                         <button type="button" class="button-default" onclick="somar()">Somar</button>
@@ -68,7 +70,8 @@
                     <button type="button" class="button-default" onclick="media()">Média</button>
                     <div class="div-button-input">
                         <button type="button" class="button-default" onclick="blending()">Blending</button>
-                        <input class="input-number" id="input-blending" type="number" min="0" max="255">
+                        <input class="input-number" id="input-blending" type="number" min="0" max="1" step="0.01">
+                        <span class="span-error">*Obrigatório!</span>
                     </div>
                 </div>
             </div>
