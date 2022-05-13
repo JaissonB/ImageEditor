@@ -4,7 +4,6 @@ var canvas2 = document.getElementById('canvas-img2');
 var ctx2 = canvas2.getContext('2d');
 var canvasResult = document.getElementById('canvas-result');
 var ctxR = canvasResult.getContext('2d');
-const buttonDownload = document.getElementById('download');
 canvasResult.width = 400;
 canvasResult.height = 400;
 
@@ -14,6 +13,13 @@ document.getElementById('upload-file1').addEventListener('click', function() {
 
 document.getElementById('upload-file2').addEventListener('click', function() {
     document.getElementById('input-file2').click();
+})
+
+document.getElementById('download').addEventListener('click', function() {
+    const a = document.createElement('a');
+    a.download = 'ImageEditor.png';
+    a.href = canvasResult.toDataURL();
+    a.click();
 })
 
 function openFile(idx) {
@@ -323,10 +329,3 @@ function rgbTo1Bit2() {
 
     ctxR.putImageData(vari.imageR, 0, 0);
 }
-
-buttonDownload.addEventListener('click', function() {
-    const a = document.createElement('a');
-    a.download = 'ImageEditor.png';
-    a.href = canvasResult.toDataURL();
-    a.click();
-})

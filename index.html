@@ -18,12 +18,14 @@
                 </div>
                 <input type="file" id="input-file1" class="input-files" onchange="openFile('1')">
                 <button id="upload-file1" class="button-upload">Carregar Imagem</button>
-                <div>
-                    <button type="button" class="button-default" onclick="rgbTo8Bit1()">To Gray</button>
-                    <button type="button" class="button-default" onclick="rgbTo1Bit1()">To Binário</button>
-                    <button type="button" class="button-default" onclick="not1()">NOT</button>
+                <div class="div-container">
+                    <p>Operações com a imagem 1.</p>
+                    <div>
+                        <button type="button" class="button-default" onclick="rgbTo8Bit1()">To Gray</button>
+                        <button type="button" class="button-default" onclick="rgbTo1Bit1()">To Binário</button>
+                        <button type="button" class="button-default" onclick="not1()">NOT</button>
+                    </div>
                 </div>
-                <!-- <button onclick="pixel1()">Pixel</button> -->
             </section>
             <section class="section-container">
                 <h3>Imagem 2</h3>
@@ -33,24 +35,51 @@
                 </div>
                 <input type="file" id="input-file2" class="input-files" onchange="openFile('2')">
                 <button id="upload-file2" class="button-upload">Carregar Imagem</button>
-                <div>
-                    <button type="button" class="button-default" onclick="rgbTo8Bit2()">To Gray</button>
-                    <button type="button" class="button-default" onclick="rgbTo1Bit2()">To Binário</button>
-                    <button type="button" class="button-default" onclick="not2()">NOT</button>
+                <div class="div-container">
+                    <p>Operações com a imagem 2.</p>
+                    <div>
+                        <button type="button" class="button-default" onclick="rgbTo8Bit2()">To Gray</button>
+                        <button type="button" class="button-default" onclick="rgbTo1Bit2()">To Binário</button>
+                        <button type="button" class="button-default" onclick="not2()">NOT</button>
+                    </div>
                 </div>
-                <!-- <button onclick="pixel2()">Pixel</button> -->
             </section>
         </div>
         <div class="div-buttons">
-            <button type="button" class="button-default" onclick="somar()">Somar</button>
-            <button type="button" class="button-default" onclick="subtrair()">Subrair</button>
-            <button type="button" class="button-default" onclick="multiplicar()">Multiplicar</button>
-            <button type="button" class="button-default" onclick="dividir()">Dividir</button>
-            <button type="button" class="button-default" onclick="media()">Média</button>
-            <button type="button" class="button-default" onclick="blending()">Blending</button>
-            <button type="button" class="button-default" onclick="and()">AND</button>
-            <button type="button" class="button-default" onclick="or()">OR</button>
-            <button type="button" class="button-default" onclick="xor()">XOR</button>
+            <div class="div-container">
+                <p>Operações Aritméticas:</p>
+                <div class="div-flex">
+                    <div class="div-button-input">
+                        <button type="button" class="button-default" onclick="somar()">Somar</button>
+                        <input class="input-number" id="input-somar" type="number" min="0" max="255">
+                    </div>
+                    <div class="div-button-input">
+                        <button type="button" class="button-default" onclick="subtrair()">Subrair</button>
+                        <input class="input-number" id="input-subtrair" type="number" min="0" max="255">
+                    </div>
+                    <div class="div-button-input">
+                        <button type="button" class="button-default" onclick="multiplicar()">Multiplicar</button>
+                        <input class="input-number" id="input-multiplicar" type="number" min="0" max="255">
+                    </div>
+                    <div class="div-button-input">
+                        <button type="button" class="button-default" onclick="dividir()">Dividir</button>
+                        <input class="input-number" id="input-dividir" type="number" min="0" max="255">
+                    </div>
+                    <button type="button" class="button-default" onclick="media()">Média</button>
+                    <div class="div-button-input">
+                        <button type="button" class="button-default" onclick="blending()">Blending</button>
+                        <input class="input-number" id="input-blending" type="number" min="0" max="255">
+                    </div>
+                </div>
+            </div>
+            <div class="div-container">
+                <p>Operações Lógicas:</p>
+                <div>
+                    <button type="button" class="button-default" onclick="and()">AND</button>
+                    <button type="button" class="button-default" onclick="or()">OR</button>
+                    <button type="button" class="button-default" onclick="xor()">XOR</button>
+                </div>
+            </div>
         </div>
         <div class="div-container-result">
             <section class="section-container">
