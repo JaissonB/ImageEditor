@@ -20,4 +20,3 @@ Atividades propostas: <br>
 - Extras:
   - Aumentar Brilho;
   - Diminuir Brilho;
-  - Aumentar e Diminur valor apenas dos pixels (R, G, B).
