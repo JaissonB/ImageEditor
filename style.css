@@ -32,6 +32,10 @@ main {
     visibility: hidden;
 }
 
+#img-result {
+    display: none;
+}
+
 .div-container-images {
     width: 100%;
     display: flex;

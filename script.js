@@ -7,6 +7,7 @@ var ctxR = canvasResult.getContext('2d');
 canvasResult.width = 400;
 canvasResult.height = 400;
 
+//Eventos
 document.getElementById('upload-file1').addEventListener('click', function() {
     document.getElementById('input-file1').click();
 })
@@ -22,6 +23,7 @@ document.getElementById('download').addEventListener('click', function() {
     a.click();
 })
 
+//Funções
 function openFile(idx) {
     var file = document.getElementById('input-file' + idx).files[0];
     var readFile = new FileReader();
@@ -89,16 +91,18 @@ function somar() {
             vari.matrixR[i+1] += valSoma;//G
             vari.matrixR[i+2] += valSoma;//B
         }
+        canvasResult.width = canvas1.width;
+        canvasResult.height = canvas1.height;
     } else {
         for(i = 0; i < vari.matrixR.length; i+=4) {
             vari.matrixR[i] += vari.matrix2[i];//R
             vari.matrixR[i+1] += vari.matrix2[i+1];//G
             vari.matrixR[i+2] += vari.matrix2[i+2];//B
         }
+        canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
+        canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
     }
 
-    canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
-    canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
     ctxR.putImageData(vari.imageR, 0, 0);
     removeError();
 }
@@ -113,16 +117,18 @@ function subtrair() {
             vari.matrixR[i+1] -= valSub;
             vari.matrixR[i+2] -= valSub;
         }
+        canvasResult.width = canvas1.width;
+        canvasResult.height = canvas1.height;
     } else {
         for(i = 0; i < vari.matrixR.length; i+=4) {
             vari.matrixR[i] -= vari.matrix2[i];
             vari.matrixR[i+1] -= vari.matrix2[i+1];
             vari.matrixR[i+2] -= vari.matrix2[i+2];
         }
+        canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
+        canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
     }
 
-    canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
-    canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
     ctxR.putImageData(vari.imageR, 0, 0);
     removeError();
 }
@@ -137,16 +143,18 @@ function multiplicar() {
             vari.matrixR[i+1] *= valMult;
             vari.matrixR[i+2] *= valMult;
         }
+        canvasResult.width = canvas1.width;
+        canvasResult.height = canvas1.height;
     } else {
         for(i = 0; i < vari.matrixR.length; i+=4) {
             vari.matrixR[i] *= vari.matrix2[i];//R
             vari.matrixR[i+1] *= vari.matrix2[i+1];//G
             vari.matrixR[i+2] *= vari.matrix2[i+2];//B
         }
+        canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
+        canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
     }
 
-    canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
-    canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
     ctxR.putImageData(vari.imageR, 0, 0);
     removeError();
 }
@@ -161,16 +169,18 @@ function dividir() {
             vari.matrixR[i+1] /= valDiv;
             vari.matrixR[i+2] /= valDiv;
         }
+        canvasResult.width = canvas1.width;
+        canvasResult.height = canvas1.height;
     } else {
         for(i = 0; i < vari.matrixR.length; i+=4) {
             vari.matrixR[i] /= vari.matrix2[i];
             vari.matrixR[i+1] /= vari.matrix2[i+1];
             vari.matrixR[i+2] /= vari.matrix2[i+2];
         }
+        canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
+        canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
     }
 
-    canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
-    canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
     ctxR.putImageData(vari.imageR, 0, 0);
     removeError();
 }
@@ -211,6 +221,7 @@ function blending() {
 }
 
 function removeError() {
+    document.querySelector('.canvas-container--result').style.width = '410px';
     document.getElementById('input-blending').classList.remove('input-error');
     document.querySelector('.span-error').style.display = 'none';
 }
@@ -371,4 +382,19 @@ function rgbTo1Bit2() {
     canvasResult.height = canvas2.height;
     ctxR.putImageData(vari.imageR, 0, 0);
     removeError();
+}
+
+function mirrorImage() {
+    removeError();
+    
+    const image = canvas1.toDataURL('image/png');
+    var img = document.querySelector("#img-result");
+    img.src = image;
+
+    canvasResult.width = canvas1.height;
+    canvasResult.height = canvas1.height;
+    console.log(ctxR)
+    ctxR.scale(-1, 1);
+    ctxR.translate(-canvasResult.width, 0);
+    ctxR.drawImage(img, 0, 0, 400, 400);
 }
