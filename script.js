@@ -210,7 +210,6 @@ function blending() {
             vari.matrixR[i+1] = valTaxaMix * vari.matrixR[i+1] + (1 - valTaxaMix) * vari.matrix2[i+1];//G
             vari.matrixR[i+2] = valTaxaMix * vari.matrixR[i+2] + (1 - valTaxaMix) * vari.matrix2[i+2];//B
         }
-        console.log("QUACK")
         canvasResult.width = (canvas1.width >= canvas2.width) ? canvas2.width : canvas1.width;
         canvasResult.height = (canvas1.height >= canvas2.height) ? canvas2.height : canvas1.height;
         ctxR.putImageData(vari.imageR, 0, 0);
@@ -278,7 +277,7 @@ function not1() {
     var vari = returnVariables();
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
-            var bit = vari.matrix1[i+j] >= 128 ? 0 : 255;
+            var bit = 255 - vari.matrix1[i+j];
             vari.matrixR[i+j] = bit;
         }
     }
@@ -295,7 +294,7 @@ function not2() {
     vari.imageR = vari.image2;
     for(i = 0; i < vari.matrixR.length; i+=4) {
         for(j = 0; j < 3; j++) {
-            var bit = vari.matrix2[i+j] >= 128 ? 0 : 255;
+            var bit = 255 - vari.matrix2[i+j];
             vari.matrixR[i+j] = bit;
         }
     }
@@ -393,7 +392,6 @@ function mirrorImage() {
 
     canvasResult.width = canvas1.height;
     canvasResult.height = canvas1.height;
-    console.log(ctxR)
     ctxR.scale(-1, 1);
     ctxR.translate(-canvasResult.width, 0);
     ctxR.drawImage(img, 0, 0, 400, 400);
