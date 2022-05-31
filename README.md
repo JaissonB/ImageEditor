@@ -13,11 +13,14 @@ Atividades propostas: <br>
   - Multiplicação de imagens;
   - Divisão de imagens;
   - Média entre duas imagens;
-  - Blending de imagens;
-  - Equalização de imagem;
-  - Mostra de histogramas. <br><br>
+  - Blending de imagens. <br><br>
+  
 - Operações Lógicas:
   - AND;
   - OR;
   - XOR;
   - NOT. <br><br>
+  
+- Operações Extras:
+  - Equalização de imagem;
+  - Mostra de histogramas. <br><br>
