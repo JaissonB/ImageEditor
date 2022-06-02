@@ -4,6 +4,10 @@ var canvas2 = document.getElementById('canvas-img2');
 var ctx2 = canvas2.getContext('2d');
 var canvasResult = document.getElementById('canvas-result');
 var ctxR = canvasResult.getContext('2d');
+var canvas3 = document.getElementById('canvas-img3');
+var ctx3 = canvas3.getContext('2d');
+var canvasEq = document.getElementById('canvas-img3');
+var ctxEq = canvasEq.getContext('2d');
 canvasResult.width = 400;
 canvasResult.height = 400;
 
@@ -16,10 +20,21 @@ document.getElementById('upload-file2').addEventListener('click', function() {
     document.getElementById('input-file2').click();
 })
 
+document.getElementById('upload-file3').addEventListener('click', function() {
+    document.getElementById('input-file3').click();
+})
+
 document.getElementById('download').addEventListener('click', function() {
     const a = document.createElement('a');
     a.download = 'ImageEditor.png';
     a.href = canvasResult.toDataURL();
+    a.click();
+})
+
+document.getElementById('downloadEq').addEventListener('click', function() {
+    const a = document.createElement('a');
+    a.download = 'ImageEditor.png';
+    a.href = canvasEq.toDataURL();
     a.click();
 })
 
@@ -57,6 +72,16 @@ function openFile(idx) {
                 }
                 ctx2.clearRect(0, 0, width, height);
                 ctx2.drawImage(image, 0, 0, width, height, 0, 0, canvas2.width, canvas2.height);
+            } else if (idx == 3) {
+                if (width >= height) {
+                    canvas3.width = 400;
+                    canvas3.height = 400 * height / width;
+                } else if (height > width) {
+                    canvas3.height = 400;
+                    canvas3.width = 400 * width / height;
+                }
+                ctx3.clearRect(0, 0, width, height);
+                ctx3.drawImage(image, 0, 0, width, height, 0, 0, canvas3.width, canvas3.height);
             }
         }
     }
@@ -395,4 +420,27 @@ function mirrorImage() {
     ctxR.scale(-1, 1);
     ctxR.translate(-canvasResult.width, 0);
     ctxR.drawImage(img, 0, 0, 400, 400);
+}
+
+function countQuantityOfPixels() {
+    var image3 = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
+    var matrix3 = image3.data;
+    var arrQuantityOccurrences = [];
+    var val;
+    for (var i = 0; i < 256; i++) {
+        arrQuantityOccurrences.push(0);
+    }
+    console.log(arrQuantityOccurrences)
+    
+    for(i = 0; i < matrix3.length; i+=4) {
+        val = (matrix3[i] + matrix3[i+1] + matrix3[i+2]) / 3;
+        arrQuantityOccurrences[val]++;
+    }
+    console.log(val)
+    console.log(arrQuantityOccurrences)
+    // canvasResult.width = canvas1.width;
+    // canvasResult.height = canvas1.height;
+
+    // ctxR.putImageData(vari.imageR, 0, 0);
+    // removeError();
 }

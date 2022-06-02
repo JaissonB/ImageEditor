@@ -107,10 +107,35 @@
                 <button id="download" class="button-upload">Exportar Imagem</button>
             </section>
         </div>
+        <div class="spacer"></div>
+        <div class="center">
+            <h2>Equalização / Histograma</h2>
+            <div class="div-container-images">
+                <section class="section-container">
+                    <h3>Imagem Original</h3>
+                    <img src="" alt="" id="img-loaded3">
+                    <div class="canvas-container" id="div-canvas3">
+                        <canvas id="canvas-img3"></canvas>
+                    </div>
+                    <input type="file" id="input-file3" class="input-files" onchange="openFile('3')">
+                    <button id="upload-file3" class="button-upload">Carregar Imagem</button>
+                </section>
+                <section class="section-container">
+                    <h3>Imagem Equalizada</h3>
+                    <img src="" alt="" id="img-loadedEq">
+                    <div class="canvas-container" id="div-canvasEq">
+                        <canvas id="canvas-imgEq"></canvas>
+                    </div>
+                    <button id="downloadEq" class="button-upload">Exportar Imagem</button>
+                    <button onclick="countQuantityOfPixels()">Teste</button>
+                </section>
+            </div>
+        </div>
     </main>
     <footer>
         <div><span>Copyright © 2022 - Institutional Site - Jaisson Bassanesi</span></div>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 <script src="script.js"></script>
 </html>

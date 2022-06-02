@@ -26,7 +26,7 @@ main {
     margin: 10px;
 }
 
-#img-loaded1, #img-loaded2 {
+#img-loaded1, #img-loaded2, #img-loaded3, #img-loadedEq {
     width: 0;
     height: 0;
     visibility: hidden;
@@ -144,6 +144,20 @@ main {
 
 .input-files {
     display: none;
+}
+
+.spacer {
+    width: 100%;
+    height: 1.5px;
+    background-color: #5271FF;
+    margin: 50px 0;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
 footer {
