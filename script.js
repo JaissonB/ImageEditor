@@ -39,6 +39,45 @@ document.getElementById('downloadEq').addEventListener('click', function() {
 })
 
 //Funções
+function constructMatrix(image, width, height) {
+    var lineGray = [];
+    var matrixGray = [];
+    var lineR = [];
+    var matrixR = [];
+    var lineG = [];
+    var matrixG = [];
+    var lineB = [];
+    var matrixB = [];
+    console.log(image.data.length)
+    for(var i = 0; i < image.data.length; i+=4) {
+        if((i % (width * 4) === 0) && i !== 0) {
+            matrixR.push(lineR);
+            lineR = [];
+            matrixG.push(lineG);
+            lineG = [];
+            matrixB.push(lineB);
+            lineB = [];
+        }
+        lineR.push(image.data[i])//R
+        lineG.push(image.data[i+1])//G
+        lineB.push(image.data[i+2])//B
+    }
+    matrixGray = matrixR;
+    console.log(image.data, width, height)
+    console.log(matrixR[112])
+    console.log(matrixG)
+    console.log(matrixB)
+    for(var i = 0; i < height; i++) {
+        for(var j = 0; j < width; j++) {
+            // console.log(i, j)
+            lineGray.push((matrixR[i][j] + matrixG[i][j] + matrixB[i][j]) / 3);
+        }
+        matrixGray.push(lineGray);
+        lineGray = [];
+    }
+    console.log(matrixGray)
+}
+
 function openFile(idx) {
     var file = document.getElementById('input-file' + idx).files[0];
     var readFile = new FileReader();
@@ -73,6 +112,8 @@ function openFile(idx) {
                 ctx2.clearRect(0, 0, width, height);
                 ctx2.drawImage(image, 0, 0, width, height, 0, 0, canvas2.width, canvas2.height);
             } else if (idx == 3) {
+                // var originalWidth = width;
+                // var originalHeight = height;
                 if (width >= height) {
                     canvas3.width = 400;
                     canvas3.height = 400 * height / width;
@@ -82,6 +123,8 @@ function openFile(idx) {
                 }
                 ctx3.clearRect(0, 0, width, height);
                 ctx3.drawImage(image, 0, 0, width, height, 0, 0, canvas3.width, canvas3.height);
+                var image3 = ctx3.getImageData(0, 0, canvas1.width, canvas1.height);
+                constructMatrix(image3, canvas3.width, canvas3.height)
             }
         }
     }
