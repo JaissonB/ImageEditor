@@ -38,45 +38,52 @@ document.getElementById('downloadEq').addEventListener('click', function() {
     a.click();
 })
 
-//Funções
 function constructMatrix(image, width, height) {
-    var lineGray = [];
-    var matrixGray = [];
-    var lineR = [];
-    var matrixR = [];
-    var lineG = [];
-    var matrixG = [];
-    var lineB = [];
-    var matrixB = [];
-    console.log(image.data.length)
-    for(var i = 0; i < image.data.length; i+=4) {
-        if((i % (width * 4) === 0) && i !== 0) {
-            matrixR.push(lineR);
-            lineR = [];
-            matrixG.push(lineG);
-            lineG = [];
-            matrixB.push(lineB);
-            lineB = [];
+    var line = [];
+    var matrix = [];
+    for(var i = 0; i < image.data.length; i++) {
+        line.push(image.data[i]);
+        if (line.length === width*4) {
+            matrix.push(line);
+            line = [];
         }
-        lineR.push(image.data[i])//R
-        lineG.push(image.data[i+1])//G
-        lineB.push(image.data[i+2])//B
     }
-    matrixGray = matrixR;
-    console.log(image.data, width, height)
-    console.log(matrixR[112])
-    console.log(matrixG)
-    console.log(matrixB)
-    for(var i = 0; i < height; i++) {
-        for(var j = 0; j < width; j++) {
-            // console.log(i, j)
-            lineGray.push((matrixR[i][j] + matrixG[i][j] + matrixB[i][j]) / 3);
-        }
-        matrixGray.push(lineGray);
-        lineGray = [];
-    }
-    console.log(matrixGray)
+    return matrix;
 }
+
+// function constructMatrix(image, width, height) {
+//     var lineGray = [];
+//     var matrixGray = [];
+//     var lineR = [];
+//     var matrixR = [];
+//     var lineG = [];
+//     var matrixG = [];
+//     var lineB = [];
+//     var matrixB = [];
+
+//     for(var i = 0; i < image.data.length; i+=4) {
+//         lineR.push(image.data[i])//R
+//         lineG.push(image.data[i+1])//G
+//         lineB.push(image.data[i+2])//B
+//         if(lineR.length + lineG.length + lineB.length === width * 3) {
+//             matrixR.push(lineR);
+//             lineR = [];
+//             matrixG.push(lineG);
+//             lineG = [];
+//             matrixB.push(lineB);
+//             lineB = [];
+//         }
+//     }
+
+//     for(var i = 0; i < height; i++) {
+//         for(var j = 0; j < width; j++) {
+//             lineGray.push((matrixR[i][j] + matrixG[i][j] + matrixB[i][j]) / 3);
+//         }
+//         matrixGray.push(lineGray);
+//         lineGray = [];
+//     }
+//     return matrixGray;
+// }
 
 function openFile(idx) {
     var file = document.getElementById('input-file' + idx).files[0];
@@ -112,8 +119,6 @@ function openFile(idx) {
                 ctx2.clearRect(0, 0, width, height);
                 ctx2.drawImage(image, 0, 0, width, height, 0, 0, canvas2.width, canvas2.height);
             } else if (idx == 3) {
-                // var originalWidth = width;
-                // var originalHeight = height;
                 if (width >= height) {
                     canvas3.width = 400;
                     canvas3.height = 400 * height / width;
@@ -123,8 +128,9 @@ function openFile(idx) {
                 }
                 ctx3.clearRect(0, 0, width, height);
                 ctx3.drawImage(image, 0, 0, width, height, 0, 0, canvas3.width, canvas3.height);
-                var image3 = ctx3.getImageData(0, 0, canvas1.width, canvas1.height);
-                constructMatrix(image3, canvas3.width, canvas3.height)
+                // var image3 = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
+                // constructMatrix(image3, canvas3.width, canvas3.height)
+                equalization();
             }
         }
     }
@@ -486,4 +492,61 @@ function countQuantityOfPixels() {
 
     // ctxR.putImageData(vari.imageR, 0, 0);
     // removeError();
+}
+
+function equalization() {
+    var image3 = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
+    var matrizImg = constructMatrix(image3, canvas3.width, canvas3.height);
+    console.log(matrizImg)
+    var matrizEqual = matrizImg;
+    var arrayQuantityOccurrences = [];
+    var arrayQuantityOccurrencesRed = [];
+    var arrayQuantityOccurrencesGreen = [];
+    var arrayQuantityOccurrencesBlue = [];
+    var arrayCFD = [];//Distribuição Cumulativa de Frequencias
+    var arrayCFDRed = [];
+    var arrayCFDGreen = [];
+    var arrayCFDBlue = [];
+
+    for (var i = 0; i <= 255; i++) {
+        arrayQuantityOccurrences[i] = 0;
+        arrayCFD[i] = 0;
+    }
+
+    for (var i = 0; i < canvas3.height; i++) {
+        for (var j = 0; j < canvas3.width*4; j+=4) {
+            var soma = 0;
+            for (var x = 0; x < 3; x++) {
+                soma += matrizImg[i][j];
+            }
+            arrayQuantityOccurrences[Math.floor(soma/3)] += 1;
+        }
+    }
+
+    arrayCFD[0] = arrayQuantityOccurrences[0];
+    for (var i = 1; i <= 255; i++) {
+        arrayCFD[i] = arrayQuantityOccurrences[i] + arrayCFD[i-1];
+    }
+
+    var minCFD = Math.min(...arrayCFD);
+
+    for (var i = 0; i < canvas3.height; i++) {
+        for (var j = 0; j < canvas3.width; j++) {
+            matrizEqual[i][j] = Math.floor(((arrayCFD[matrizEqual[i][j]] - minCFD) / (canvas3.height*canvas3.width - minCFD)) * 256);
+        }
+    }
+
+    console.log(arrayQuantityOccurrences)
+    // console.log(arrayCFD)
+    // console.log(minCFD)
+    // console.log(matrizEqual[0][0])
+    // console.log(arrayCFD[matrizEqual[0][0]])
+    // console.log(arrayCFD[matrizEqual[0][0]] - minCFD)
+    // console.log(canvas3.height*canvas3.width - minCFD)
+    // console.log((arrayCFD[matrizEqual[0][0]] - minCFD) / (canvas3.height*canvas3.width - minCFD))
+    // console.log(((arrayCFD[matrizEqual[0][0]] - minCFD) / (canvas3.height*canvas3.width - minCFD)) * 256)
+    // console.log(Math.floor(((arrayCFD[matrizEqual[0][0]] - minCFD) / (canvas3.height*canvas3.width - minCFD)) * 256))
+    // console.log(matrizEqual[0][0] = Math.floor(((arrayCFD[matrizEqual[0][0]] - minCFD) / (canvas3.height*canvas3.width - minCFD)) * 256))
+    //               ///81                                    //159065          -  68970  /       400      *   400        -  68970   * 256
+    // console.log("Matriz Equalizada", matrizEqual)
 }
