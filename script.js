@@ -6,10 +6,12 @@ var canvasResult = document.getElementById('canvas-result');
 var ctxR = canvasResult.getContext('2d');
 var canvas3 = document.getElementById('canvas-img3');
 var ctx3 = canvas3.getContext('2d');
-var canvasEq = document.getElementById('canvas-img3');
+var canvasEq = document.getElementById('canvas-imgEq');
 var ctxEq = canvasEq.getContext('2d');
 canvasResult.width = 400;
 canvasResult.height = 400;
+canvasEq.width = 400;
+canvasEq.height = 400;
 
 //Eventos
 document.getElementById('upload-file1').addEventListener('click', function() {
@@ -39,6 +41,7 @@ document.getElementById('downloadEq').addEventListener('click', function() {
 })
 
 function constructMatrix(image, width, height) {
+    console.log(image.data)
     var line = [];
     var matrix = [];
     for(var i = 0; i < image.data.length; i++) {
@@ -471,82 +474,57 @@ function mirrorImage() {
     ctxR.drawImage(img, 0, 0, 400, 400);
 }
 
-function countQuantityOfPixels() {
-    var image3 = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
-    var matrix3 = image3.data;
-    var arrQuantityOccurrences = [];
-    var val;
-    for (var i = 0; i < 256; i++) {
-        arrQuantityOccurrences.push(0);
-    }
-    console.log(arrQuantityOccurrences)
-    
-    for(i = 0; i < matrix3.length; i+=4) {
-        val = (matrix3[i] + matrix3[i+1] + matrix3[i+2]) / 3;
-        arrQuantityOccurrences[val]++;
-    }
-    console.log(val)
-    console.log(arrQuantityOccurrences)
-    // canvasResult.width = canvas1.width;
-    // canvasResult.height = canvas1.height;
-
-    // ctxR.putImageData(vari.imageR, 0, 0);
-    // removeError();
-}
-
 function equalization() {
     var image3 = ctx3.getImageData(0, 0, canvas3.width, canvas3.height);
-    var matrizImg = constructMatrix(image3, canvas3.width, canvas3.height);
-    console.log(matrizImg)
-    var matrizEqual = matrizImg;
-    var arrayQuantityOccurrences = [];
+    var imageEq = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var matrizEq = imageEq.data;
     var arrayQuantityOccurrencesRed = [];
     var arrayQuantityOccurrencesGreen = [];
     var arrayQuantityOccurrencesBlue = [];
-    var arrayCFD = [];//Distribuição Cumulativa de Frequencias
     var arrayCFDRed = [];
     var arrayCFDGreen = [];
     var arrayCFDBlue = [];
 
     for (var i = 0; i <= 255; i++) {
-        arrayQuantityOccurrences[i] = 0;
-        arrayCFD[i] = 0;
+        arrayQuantityOccurrencesRed[i] = 0;
+        arrayQuantityOccurrencesGreen[i] = 0;
+        arrayQuantityOccurrencesBlue[i] = 0;
+        arrayCFDRed[i] = 0;
+        arrayCFDGreen[i] = 0;
+        arrayCFDBlue[i] = 0;
     }
 
-    for (var i = 0; i < canvas3.height; i++) {
-        for (var j = 0; j < canvas3.width*4; j+=4) {
-            var soma = 0;
-            for (var x = 0; x < 3; x++) {
-                soma += matrizImg[i][j];
-            }
-            arrayQuantityOccurrences[Math.floor(soma/3)] += 1;
-        }
+    for (var i = 0; i < matrizEq.length; i+=4) {
+        arrayQuantityOccurrencesRed[matrizEq[i]] += 1;
+        arrayQuantityOccurrencesGreen[matrizEq[i+1]] += 1;
+        arrayQuantityOccurrencesBlue[matrizEq[i+2]] += 1;
     }
 
-    arrayCFD[0] = arrayQuantityOccurrences[0];
+    arrayCFDRed[0] = arrayQuantityOccurrencesRed[0];
+    arrayCFDGreen[0] = arrayQuantityOccurrencesGreen[0];
+    arrayCFDBlue[0] = arrayQuantityOccurrencesBlue[0];
     for (var i = 1; i <= 255; i++) {
-        arrayCFD[i] = arrayQuantityOccurrences[i] + arrayCFD[i-1];
+        arrayCFDRed[i] = arrayQuantityOccurrencesRed[i] + arrayCFDRed[i-1];
+        arrayCFDGreen[i] = arrayQuantityOccurrencesGreen[i] + arrayCFDGreen[i-1];
+        arrayCFDBlue[i] = arrayQuantityOccurrencesBlue[i] + arrayCFDBlue[i-1];
     }
 
-    var minCFD = Math.min(...arrayCFD);
+    var minCFDRed = Math.min(...arrayCFDRed);
+    var minCFDGreen = Math.min(...arrayCFDGreen);
+    var minCFDBlue = Math.min(...arrayCFDBlue);
 
-    for (var i = 0; i < canvas3.height; i++) {
-        for (var j = 0; j < canvas3.width; j++) {
-            matrizEqual[i][j] = Math.floor(((arrayCFD[matrizEqual[i][j]] - minCFD) / (canvas3.height*canvas3.width - minCFD)) * 256);
-        }
+    for (var i = 0; i < matrizEq.length; i+=4) {
+        matrizEq[i] = Math.floor(((arrayCFDRed[matrizEq[i]] - minCFDRed) / (canvas3.height*canvas3.width - minCFDRed)) * 256);
+        matrizEq[i+1] = Math.floor(((arrayCFDGreen[matrizEq[i+1]] - minCFDGreen) / (canvas3.height*canvas3.width - minCFDGreen)) * 256);
+        matrizEq[i+2] = Math.floor(((arrayCFDBlue[matrizEq[i+2]] - minCFDBlue) / (canvas3.height*canvas3.width - minCFDBlue)) * 256);
     }
 
-    console.log(arrayQuantityOccurrences)
-    // console.log(arrayCFD)
-    // console.log(minCFD)
-    // console.log(matrizEqual[0][0])
-    // console.log(arrayCFD[matrizEqual[0][0]])
-    // console.log(arrayCFD[matrizEqual[0][0]] - minCFD)
-    // console.log(canvas3.height*canvas3.width - minCFD)
-    // console.log((arrayCFD[matrizEqual[0][0]] - minCFD) / (canvas3.height*canvas3.width - minCFD))
-    // console.log(((arrayCFD[matrizEqual[0][0]] - minCFD) / (canvas3.height*canvas3.width - minCFD)) * 256)
-    // console.log(Math.floor(((arrayCFD[matrizEqual[0][0]] - minCFD) / (canvas3.height*canvas3.width - minCFD)) * 256))
-    // console.log(matrizEqual[0][0] = Math.floor(((arrayCFD[matrizEqual[0][0]] - minCFD) / (canvas3.height*canvas3.width - minCFD)) * 256))
-    //               ///81                                    //159065          -  68970  /       400      *   400        -  68970   * 256
-    // console.log("Matriz Equalizada", matrizEqual)
+    console.log(arrayQuantityOccurrencesRed)
+    console.log(arrayQuantityOccurrencesGreen)
+    console.log(arrayQuantityOccurrencesBlue)
+    console.log(matrizEq[0])
+    console.log(image3.data);
+    console.log(imageEq.data);
+    // var matrizEq = imageEq.data;
+    ctxEq.putImageData(imageEq, 0, 0);
 }
