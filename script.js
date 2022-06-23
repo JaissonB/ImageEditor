@@ -527,4 +527,31 @@ function equalization() {
     console.log(imageEq.data);
     // var matrizEq = imageEq.data;
     ctxEq.putImageData(imageEq, 0, 0);
+
+    var label = [];
+    for (var i = 0; i <= 255; i++) {
+        label[i] = i.toString();
+    }
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: label,
+        datasets: [{
+            label: 'Histograma Original',
+            data: arrayQuantityOccurrencesRed,
+            backgroundColor: ['rgba(82, 113, 255, 1)'],
+            borderColor: ['rgba(82, 113, 255, 1)'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
 }
