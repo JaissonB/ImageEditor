@@ -484,6 +484,7 @@ function equalization() {
     var arrayCFDRed = [];
     var arrayCFDGreen = [];
     var arrayCFDBlue = [];
+    let arrayQuantityOccurrencesEqualizate = [];
 
     for (var i = 0; i <= 255; i++) {
         arrayQuantityOccurrencesRed[i] = 0;
@@ -492,6 +493,7 @@ function equalization() {
         arrayCFDRed[i] = 0;
         arrayCFDGreen[i] = 0;
         arrayCFDBlue[i] = 0;
+        arrayQuantityOccurrencesEqualizate[i] = 0;
     }
 
     for (var i = 0; i < matrizEq.length; i+=4) {
@@ -519,12 +521,12 @@ function equalization() {
         matrizEq[i+2] = Math.floor(((arrayCFDBlue[matrizEq[i+2]] - minCFDBlue) / (canvas3.height*canvas3.width - minCFDBlue)) * 256);
     }
 
-    console.log(arrayQuantityOccurrencesRed)
-    console.log(arrayQuantityOccurrencesGreen)
-    console.log(arrayQuantityOccurrencesBlue)
-    console.log(matrizEq[0])
-    console.log(image3.data);
-    console.log(imageEq.data);
+    // console.log(arrayQuantityOccurrencesRed)
+    // console.log(arrayQuantityOccurrencesGreen)
+    // console.log(arrayQuantityOccurrencesBlue)
+    // console.log(matrizEq[0])
+    // console.log(image3.data);
+    // console.log(imageEq.data);
     // var matrizEq = imageEq.data;
     ctxEq.putImageData(imageEq, 0, 0);
 
@@ -533,14 +535,33 @@ function equalization() {
         label[i] = i.toString();
     }
 
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
+    let arrayMatrizEq = [];
+    let arrayQuantityOccurrencesOriginal = [];
+    // let arrayQuantityOccurrencesEqualizate = [];
+
+    for (let i = 0; i < arrayQuantityOccurrencesRed.length; i++) {
+        arrayQuantityOccurrencesOriginal.push(Math.floor((arrayQuantityOccurrencesRed[i] + arrayQuantityOccurrencesGreen[i] + arrayQuantityOccurrencesBlue[i]) / 3));
+        console.log((arrayQuantityOccurrencesRed[i] + arrayQuantityOccurrencesGreen[i] + arrayCFDBlue[i]) / 3)
+    }
+
+    for (let i = 0; i < matrizEq.length; i+=4) {
+        arrayMatrizEq.push((matrizEq[i] + matrizEq[i+1] + matrizEq[i+2]) / 3);
+    }
+
+    for (let i = 0; i < arrayMatrizEq.length; i++) {
+        arrayQuantityOccurrencesEqualizate[arrayMatrizEq[i]] += 1;
+    }
+    console.log(arrayQuantityOccurrencesOriginal)
+    console.log(arrayQuantityOccurrencesEqualizate)
+
+    const ctxOr = document.getElementById('chartOriginal').getContext('2d');
+    const chartOr = new Chart(ctxOr, {
     type: 'bar',
     data: {
         labels: label,
         datasets: [{
             label: 'Histograma Original',
-            data: arrayQuantityOccurrencesRed,
+            data: arrayQuantityOccurrencesOriginal,
             backgroundColor: ['rgba(82, 113, 255, 1)'],
             borderColor: ['rgba(82, 113, 255, 1)'],
             borderWidth: 0
@@ -553,5 +574,27 @@ function equalization() {
             }
         }
     }
-});
+    });
+
+    const ctxEqualizate = document.getElementById('chartEqualizado').getContext('2d');
+    const chartEq = new Chart(ctxEqualizate, {
+    type: 'bar',
+    data: {
+        labels: label,
+        datasets: [{
+            label: 'Histograma Equalizado',
+            data: arrayQuantityOccurrencesEqualizate,
+            backgroundColor: ['rgba(82, 113, 255, 1)'],
+            borderColor: ['rgba(82, 113, 255, 1)'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+    });
 }
