@@ -110,7 +110,7 @@
         </div>
         <div class="spacer"></div>
         <div class="center">
-            <h2>Equalização / Histograma</h2>
+            <h2>Equalização / Filtros</h2>
             <div class="div-container-images">
                 <section class="section-container">
                     <h3>Imagem Original</h3>
@@ -122,6 +122,30 @@
                     <button id="upload-file3" class="button-upload">Carregar Imagem</button>
                 </section>
                 <section class="section-container">
+                    <div class="div-container">
+                        <p>Equalizar + Filtros:</p>
+                        <div class="change-filters">
+                            <button class="filter filter-3 filter-changed" onclick="chooseFilter(this)">3x3</button>
+                            <button class="filter filter-5" onclick="chooseFilter(this)">5x5</button>
+                            <button class="filter filter-7" onclick="chooseFilter(this)">7x7</button>
+                        </div>
+                        <div class="div-align-flexcolumns">
+                            <div class="div-flex-column">
+                                <button class="button-default" onclick="equalization()">Equalizar</button>
+                                <button class="button-default">Média</button>
+                                <button class="button-default">Mínima</button>
+                                <button class="button-default">Máxima</button>
+                            </div>
+                            <div class="div-flex-column">
+                                <button class="button-default">Mediana</button>
+                                <button class="button-default">Ordem</button>
+                                <button class="button-default">Suavização</button>
+                                <button class="button-default">Gaussiana</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="section-container">
                     <h3>Imagem Equalizada</h3>
                     <img src="" alt="" id="img-loadedEq">
                     <div class="canvas-container" id="div-canvasEq">
@@ -130,9 +154,19 @@
                     <button id="downloadEq" class="button-upload">Exportar Imagem</button>
                 </section>
             </div>
-            <div>
-                <canvas id="chartOriginal" width="1000" height="500"></canvas>
-                <canvas id="chartEqualizado" width="1000" height="500"></canvas>
+            <div class="div-collapses">
+                <details class="collapse">
+                    <summary class="collapse-title">Histograma da Imagem Original</summary>
+                    <div class="collapse-content">
+                        <canvas id="chartOriginal" width="1000" height="500"></canvas>
+                    </div>
+                </details>
+                <details class="collapse">
+                    <summary class="collapse-title">Histograma da Imagem Equalizada</summary>
+                    <div class="collapse-content">
+                        <canvas id="chartEqualizado" width="1000" height="500"></canvas>
+                    </div>
+                </details>
             </div>
         </div>
     </main>
