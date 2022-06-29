@@ -841,3 +841,47 @@ function filterOrder() {
     ctxEq.putImageData(imageFil, 0, 0);
     makeFilteredCharts(image3.data, matrizFil);
 }
+
+function filterSmoothing() {
+    var imageFil = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var image3 = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var matrizFil = imageFil.data;
+    var matrizOrigin = image3.data;
+    var droppedLines = Math.floor(filterSelected / 2);
+    var width = canvasEq.width*4;
+    var arrayFilterRed = [];
+    var arrayFilterGreen = [];
+    var arrayFilterBlue = [];
+    var arrayFilterGray = [];
+    var pixelMean;
+
+    for (let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4) {
+        arrayFilterRed = [];
+        arrayFilterGreen = [];
+        arrayFilterBlue = [];
+        var arrayFilterGray = [];
+        for (let x = droppedLines; x >= -(droppedLines); x--) {
+            for (let y = droppedLines; y >= -(droppedLines); y--) {
+                if ((x !== 0) || (y !== 0)) {
+                    arrayFilterRed.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+0])));
+                    arrayFilterGreen.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+1])));
+                    arrayFilterBlue.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+2])));
+                    arrayFilterGray.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+0] + matrizOrigin[i-(width*x)-(y*4)+1] + matrizOrigin[i-(width*x)-(y*4)+2]) / 3));
+                }
+            }
+        }
+        pixelMean = (matrizFil[i] + matrizFil[i] + matrizFil[i]) / 3;
+        if (pixelMean < arrayFilterGray.sort((a, b) => a-b)[0]) {
+            matrizFil[i] = arrayFilterRed.sort((a, b) => a-b)[0];
+            matrizFil[i+1] = arrayFilterGreen.sort((a, b) => a-b)[0];
+            matrizFil[i+2] = arrayFilterBlue.sort((a, b) => a-b)[0];
+        } else if (pixelMean > arrayFilterGray.sort((a, b) => a-b)[arrayFilterGray.length-1]) {
+            matrizFil[i] = arrayFilterRed.sort((a, b) => a-b)[arrayFilterRed.length-1];
+            matrizFil[i+1] = arrayFilterGreen.sort((a, b) => a-b)[arrayFilterGreen.length-1];
+            matrizFil[i+2] = arrayFilterBlue.sort((a, b) => a-b)[arrayFilterBlue.length-1];
+        }
+    }
+
+    ctxEq.putImageData(imageFil, 0, 0);
+    makeFilteredCharts(image3.data, matrizFil);
+}
