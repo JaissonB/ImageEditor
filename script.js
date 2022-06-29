@@ -648,37 +648,6 @@ function chooseFilter(self) {
     self.classList.add('filter-changed');
 }
 
-function filterMean() {
-    console.log(canvasEq.width)
-    var imageFil = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
-    var image3 = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
-    var matrizFil = imageFil.data;
-    var droppedLines = Math.floor(filterSelected / 2);
-    var width = canvasEq.width*4;
-    //para ignorar as primeiras e ultimas linhas usaria esse parâmetro para o FOR
-    //(let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4)
-    for (let i = 0; i < matrizFil.length; i+=4) {
-        for (let x = droppedLines; x >= -(droppedLines); x--) {
-            for (let y = droppedLines; y >= -(droppedLines); y--) {
-                if ((x !== 0) || (y !== 0)) {
-                    if ((x === droppedLines) && (y === droppedLines)) {
-                        matrizFil[i] = matrizFil[i] / (filterSelected*filterSelected);
-                        matrizFil[i+1] = matrizFil[i+1] / (filterSelected*filterSelected);
-                        matrizFil[i+2] = matrizFil[i+2] / (filterSelected*filterSelected);
-                    }
-                    for (let j = 0; j < 3; j++) {
-                        matrizFil[i+j] += Math.floor((matrizFil[i-(width*x)-(y*4)+j])/(filterSelected*filterSelected));
-                    }
-                }
-            }
-        }
-    }
-
-    ctxEq.putImageData(imageFil, 0, 0);
-
-    makeFilteredCharts(image3.data, matrizFil);
-}
-
 function makeFilteredCharts(matrizOriginal, matrizFiltered) {
     let arrayMatrizFil = [];
     let arrayQuantityOccurrencesRed = [];
@@ -713,4 +682,66 @@ function makeFilteredCharts(matrizOriginal, matrizFiltered) {
     }
 
     makeCharts(arrayQuantityOccurrencesOriginal, arrayQuantityOccurrencesFiltered);
+}
+
+function filterMean() {
+    var imageFil = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var image3 = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var matrizFil = imageFil.data;
+    var droppedLines = Math.floor(filterSelected / 2);
+    var width = canvasEq.width*4;
+
+    //para ignorar as primeiras e ultimas linhas usaria esse parâmetro para o FOR
+    //(let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4)
+
+    for (let i = 0; i < matrizFil.length; i+=4) {                       //Percorre a matriz inteira, isso faz com que os últimos pixels já fiquem com o valor de 0
+        for (let x = droppedLines; x >= -(droppedLines); x--) {         //Percorre o espaço do filtro no eixo x
+            for (let y = droppedLines; y >= -(droppedLines); y--) {     //Percorre o espaço do filtro no eixo y
+                if ((x !== 0) || (y !== 0)) {                           //Se não for o pixel alvo. Isso por que é utilizado o += então o pixel alvo já é somado
+                    if ((x === droppedLines) && (y === droppedLines)) { //Se for o primeiro pixel do filtro. Aí será setado o valor inicial correto para o pixel alvo, para deipois fazer a soma com os demais valor divididos pela área do filtro
+                        matrizFil[i] = matrizFil[i] / (filterSelected*filterSelected);
+                        matrizFil[i+1] = matrizFil[i+1] / (filterSelected*filterSelected);
+                        matrizFil[i+2] = matrizFil[i+2] / (filterSelected*filterSelected);
+                    }
+                    for (let j = 0; j < 3; j++) {                       //Percorre as três camadas RGB, somando o valor do filtro e já dividindo pela área do filtro
+                        matrizFil[i+j] += Math.floor((matrizFil[i-(width*x)-(y*4)+j])/(filterSelected*filterSelected));
+                    }
+                }
+            }
+        }
+    }
+
+    ctxEq.putImageData(imageFil, 0, 0);
+    makeFilteredCharts(image3.data, matrizFil);
+}
+
+function filterMin() {
+    var imageFil = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var image3 = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var matrizFil = imageFil.data;
+    var matrizOrigin = image3.data;
+    var droppedLines = Math.floor(filterSelected / 2);
+    var width = canvasEq.width*4;
+    var arrayFilterRed = [];
+    var arrayFilterGreen = [];
+    var arrayFilterBlue = [];
+
+    for (let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4) {
+        arrayFilterRed = [];
+        arrayFilterGreen = [];
+        arrayFilterBlue = [];
+        for (let x = droppedLines; x >= -(droppedLines); x--) {
+            for (let y = droppedLines; y >= -(droppedLines); y--) {
+                arrayFilterRed.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+0])));
+                arrayFilterGreen.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+1])));
+                arrayFilterBlue.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+2])));
+            }
+        }
+        matrizFil[i] = arrayFilterRed.sort((a, b) => a-b)[0];
+        matrizFil[i+1] = arrayFilterGreen.sort((a, b) => a-b)[0];
+        matrizFil[i+2] = arrayFilterBlue.sort((a, b) => a-b)[0];
+    }
+
+    ctxEq.putImageData(imageFil, 0, 0);
+    makeFilteredCharts(image3.data, matrizFil);
 }
