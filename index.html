@@ -123,7 +123,7 @@
                 </section>
                 <section class="section-container">
                     <div class="div-container">
-                        <p>Equalizar + Filtros:</p>
+                        <p>Equalizar & Filtrar:</p>
                         <div class="change-filters">
                             <button class="filter filter-3 filter-changed" onclick="chooseFilter(this)">3x3</button>
                             <button class="filter filter-5" onclick="chooseFilter(this)">5x5</button>
@@ -132,7 +132,7 @@
                         <div class="div-align-flexcolumns">
                             <div class="div-flex-column">
                                 <button class="button-default" onclick="equalization()">Equalizar</button>
-                                <button class="button-default">Média</button>
+                                <button class="button-default" onclick="filterMean()">Média</button>
                                 <button class="button-default">Mínima</button>
                                 <button class="button-default">Máxima</button>
                             </div>
@@ -162,7 +162,7 @@
                     </div>
                 </details>
                 <details class="collapse">
-                    <summary class="collapse-title">Histograma da Imagem Equalizada</summary>
+                    <summary class="collapse-title">Histograma da Imagem Equalizada/Filtrada</summary>
                     <div class="collapse-content">
                         <canvas id="chartEqualizado" width="1000" height="500"></canvas>
                     </div>

@@ -568,11 +568,6 @@ function equalization() {
 
     ctxEq.putImageData(imageEq, 0, 0);
 
-    var label = [];
-    for (var i = 0; i <= 255; i++) {
-        label[i] = i.toString();
-    }
-
     let arrayMatrizEq = [];
     let arrayQuantityOccurrencesOriginal = [];
 
@@ -588,15 +583,21 @@ function equalization() {
         arrayQuantityOccurrencesEqualizate[arrayMatrizEq[i]] += 1;
     }
 
-    makeCharts(arrayQuantityOccurrencesOriginal, label, arrayQuantityOccurrencesEqualizate, label);
+    makeCharts(arrayQuantityOccurrencesOriginal, arrayQuantityOccurrencesEqualizate);
 }
 
-function makeCharts(arrOriginal, arrOriginalLabels, arrModify, arrModifyLabels) {
+function makeCharts(arrOriginal, arrModify) {
+    var label = [];
+
+    for (var i = 0; i <= 255; i++) {
+        label[i] = i.toString();
+    }
+
     chartOr.destroy();
     chartOr = new Chart(ctxOriginalChart, {
     type: 'bar',
     data: {
-        labels: arrOriginalLabels,
+        labels: label,
         datasets: [{
             label: 'Quantidade de pixels',
             data: arrOriginal,
@@ -618,7 +619,7 @@ function makeCharts(arrOriginal, arrOriginalLabels, arrModify, arrModifyLabels) 
     chartEq = new Chart(ctxEqualizateChart, {
     type: 'bar',
     data: {
-        labels: arrModifyLabels,
+        labels: label,
         datasets: [{
             label: 'Quantidade de pixels',
             data: arrModify,
@@ -648,72 +649,68 @@ function chooseFilter(self) {
 }
 
 function filterMean() {
-    var imageEq = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
-    var matrizEq = imageEq.data;
-    var arrayQuantityOccurrencesRed = [];
-    var arrayQuantityOccurrencesGreen = [];
-    var arrayQuantityOccurrencesBlue = [];
-    var arrayCFDRed = [];
-    var arrayCFDGreen = [];
-    var arrayCFDBlue = [];
-    let arrayQuantityOccurrencesEqualizate = [];
+    console.log(canvasEq.width)
+    var imageFil = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var image3 = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var matrizFil = imageFil.data;
+    var droppedLines = Math.floor(filterSelected / 2);
+    var width = canvasEq.width*4;
+    //para ignorar as primeiras e ultimas linhas usaria esse parâmetro para o FOR
+    //(let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4)
+    for (let i = 0; i < matrizFil.length; i+=4) {
+        for (let x = droppedLines; x >= -(droppedLines); x--) {
+            for (let y = droppedLines; y >= -(droppedLines); y--) {
+                if ((x !== 0) || (y !== 0)) {
+                    if ((x === droppedLines) && (y === droppedLines)) {
+                        matrizFil[i] = matrizFil[i] / (filterSelected*filterSelected);
+                        matrizFil[i+1] = matrizFil[i+1] / (filterSelected*filterSelected);
+                        matrizFil[i+2] = matrizFil[i+2] / (filterSelected*filterSelected);
+                    }
+                    for (let j = 0; j < 3; j++) {
+                        matrizFil[i+j] += Math.floor((matrizFil[i-(width*x)-(y*4)+j])/(filterSelected*filterSelected));
+                    }
+                }
+            }
+        }
+    }
+
+    ctxEq.putImageData(imageFil, 0, 0);
+
+    makeFilteredCharts(image3.data, matrizFil);
+}
+
+function makeFilteredCharts(matrizOriginal, matrizFiltered) {
+    let arrayMatrizFil = [];
+    let arrayQuantityOccurrencesRed = [];
+    let arrayQuantityOccurrencesGreen = [];
+    let arrayQuantityOccurrencesBlue = [];
+    let arrayQuantityOccurrencesOriginal = [];
+    let arrayQuantityOccurrencesFiltered = [];
 
     for (var i = 0; i <= 255; i++) {
         arrayQuantityOccurrencesRed[i] = 0;
         arrayQuantityOccurrencesGreen[i] = 0;
         arrayQuantityOccurrencesBlue[i] = 0;
-        arrayCFDRed[i] = 0;
-        arrayCFDGreen[i] = 0;
-        arrayCFDBlue[i] = 0;
-        arrayQuantityOccurrencesEqualizate[i] = 0;
+        arrayQuantityOccurrencesFiltered[i] = 0;
     }
 
-    for (var i = 0; i < matrizEq.length; i+=4) {
-        arrayQuantityOccurrencesRed[matrizEq[i]] += 1;
-        arrayQuantityOccurrencesGreen[matrizEq[i+1]] += 1;
-        arrayQuantityOccurrencesBlue[matrizEq[i+2]] += 1;
+    for (var i = 0; i < matrizOriginal.length; i+=4) {
+        arrayQuantityOccurrencesRed[matrizOriginal[i]] += 1;
+        arrayQuantityOccurrencesGreen[matrizOriginal[i+1]] += 1;
+        arrayQuantityOccurrencesBlue[matrizOriginal[i+2]] += 1;
     }
-
-    arrayCFDRed[0] = arrayQuantityOccurrencesRed[0];
-    arrayCFDGreen[0] = arrayQuantityOccurrencesGreen[0];
-    arrayCFDBlue[0] = arrayQuantityOccurrencesBlue[0];
-    for (var i = 1; i <= 255; i++) {
-        arrayCFDRed[i] = arrayQuantityOccurrencesRed[i] + arrayCFDRed[i-1];
-        arrayCFDGreen[i] = arrayQuantityOccurrencesGreen[i] + arrayCFDGreen[i-1];
-        arrayCFDBlue[i] = arrayQuantityOccurrencesBlue[i] + arrayCFDBlue[i-1];
-    }
-
-    var minCFDRed = Math.min(...arrayCFDRed);
-    var minCFDGreen = Math.min(...arrayCFDGreen);
-    var minCFDBlue = Math.min(...arrayCFDBlue);
-
-    for (var i = 0; i < matrizEq.length; i+=4) {
-        matrizEq[i] = Math.floor(((arrayCFDRed[matrizEq[i]] - minCFDRed) / (canvas3.height*canvas3.width - minCFDRed)) * 256);
-        matrizEq[i+1] = Math.floor(((arrayCFDGreen[matrizEq[i+1]] - minCFDGreen) / (canvas3.height*canvas3.width - minCFDGreen)) * 256);
-        matrizEq[i+2] = Math.floor(((arrayCFDBlue[matrizEq[i+2]] - minCFDBlue) / (canvas3.height*canvas3.width - minCFDBlue)) * 256);
-    }
-
-    ctxEq.putImageData(imageEq, 0, 0);
-
-    var label = [];
-    for (var i = 0; i <= 255; i++) {
-        label[i] = i.toString();
-    }
-
-    let arrayMatrizEq = [];
-    let arrayQuantityOccurrencesOriginal = [];
 
     for (let i = 0; i < arrayQuantityOccurrencesRed.length; i++) {
         arrayQuantityOccurrencesOriginal.push(Math.floor((arrayQuantityOccurrencesRed[i] + arrayQuantityOccurrencesGreen[i] + arrayQuantityOccurrencesBlue[i]) / 3));
     }
 
-    for (let i = 0; i < matrizEq.length; i+=4) {
-        arrayMatrizEq.push((matrizEq[i] + matrizEq[i+1] + matrizEq[i+2]) / 3);
+    for (let i = 0; i < matrizFiltered.length; i+=4) {
+        arrayMatrizFil.push((matrizFiltered[i] + matrizFiltered[i+1] + matrizFiltered[i+2]) / 3);
     }
 
-    for (let i = 0; i < arrayMatrizEq.length; i++) {
-        arrayQuantityOccurrencesEqualizate[arrayMatrizEq[i]] += 1;
+    for (let i = 0; i < arrayMatrizFil.length; i++) {
+        arrayQuantityOccurrencesFiltered[arrayMatrizFil[i]] += 1;
     }
 
-    makeCharts(arrayQuantityOccurrencesOriginal, label, arrayQuantityOccurrencesEqualizate, label);
+    makeCharts(arrayQuantityOccurrencesOriginal, arrayQuantityOccurrencesFiltered);
 }
