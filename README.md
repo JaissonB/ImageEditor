@@ -1,7 +1,10 @@
 # Image Editor
 
-- Institucional - URI Erechim - Processamento de Imagens
-   - Projeto criado referente atividade proposta em aula de Processamento de Imagens;
+- <strong>Institucional - URI Erechim - Processamento de Imagens</strong> <br>
+   Projeto criado referente atividades propostas em aula de Processamento de Imagens; <br>
+   5° semestre do curso de Ciência da Computação; <br>
+   Linguagem JavaScript, estruturação em HTML e estilos em CSS; <br>
+   Projeto simples, não muito estruturado. Finalidade exclusivamente didática. <br>
 ##
 
 Atividades propostas: <br>
