@@ -820,7 +820,7 @@ function filterOrder() {
     var arrayFilterRed = [];
     var arrayFilterGreen = [];
     var arrayFilterBlue = [];
-    var order = parseInt(document.querySelector('.input-set-order').value) - 1 > (filterSelected*filterSelected) ? filterSelected*filterSelected : parseInt(document.querySelector('.input-set-order').value) - 1;
+    var order = parseInt(document.querySelector('.input-set-order').value) - 1 > (filterSelected*filterSelected-1) ? filterSelected*filterSelected-1 : parseInt(document.querySelector('.input-set-order').value) - 1;
 
     for (let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4) {
         arrayFilterRed = [];
@@ -859,7 +859,7 @@ function filterSmoothing() {
         arrayFilterRed = [];
         arrayFilterGreen = [];
         arrayFilterBlue = [];
-        var arrayFilterGray = [];
+        arrayFilterGray = [];
         for (let x = droppedLines; x >= -(droppedLines); x--) {
             for (let y = droppedLines; y >= -(droppedLines); y--) {
                 if ((x !== 0) || (y !== 0)) {
@@ -880,6 +880,45 @@ function filterSmoothing() {
             matrizFil[i+1] = arrayFilterGreen.sort((a, b) => a-b)[arrayFilterGreen.length-1];
             matrizFil[i+2] = arrayFilterBlue.sort((a, b) => a-b)[arrayFilterBlue.length-1];
         }
+    }
+
+    ctxEq.putImageData(imageFil, 0, 0);
+    makeFilteredCharts(image3.data, matrizFil);
+}
+
+function filterGaussian() {
+    var imageFil = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var image3 = ctx3.getImageData(0, 0, canvasEq.width, canvasEq.height);
+    var matrizFil = imageFil.data;
+    var matrizOrigin = image3.data;
+    var droppedLines = Math.floor(filterSelected / 2);
+    var width = canvasEq.width*4;
+    var variation = parseFloat(document.querySelector('.input-set-variation').value);//Desvio
+    var valueIndexFilter;
+    const PI = 3.14;
+    var sumRed = 0;
+    var sumGreen = 0;
+    var sumBlue = 0;
+    var div = 0;
+
+    for (let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4) {
+        sumRed = 0;
+        sumGreen = 0;
+        sumBlue = 0;
+        div = 0;
+        for (let x = droppedLines; x >= -(droppedLines); x--) {
+            arrayLineFilter = [];
+            for (let y = droppedLines; y >= -(droppedLines); y--) {
+                valueIndexFilter = ((1 / (2 * PI * Math.pow(variation, 2))) * Math.exp(-((Math.pow(x, 2) + Math.pow(y, 2)) / (2 * Math.pow(variation, 2)))));
+                sumRed += matrizOrigin[i-(width*x)-(y*4)+0] * valueIndexFilter;
+                sumGreen += matrizOrigin[i-(width*x)-(y*4)+1] * valueIndexFilter;
+                sumBlue += matrizOrigin[i-(width*x)-(y*4)+2] * valueIndexFilter;
+                div += valueIndexFilter;
+            }
+        }
+        matrizFil[i] = Math.floor(sumRed / div);
+        matrizFil[i+1] = Math.floor(sumGreen / div);
+        matrizFil[i+2] = Math.floor(sumBlue / div);
     }
 
     ctxEq.putImageData(imageFil, 0, 0);
