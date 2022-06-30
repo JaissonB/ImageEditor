@@ -21,6 +21,13 @@ Atividades propostas: <br>
   - XOR;
   - NOT. <br><br>
   
-- Operações Extras:
+- Operações de Filtragem:
   - Equalização de imagem;
-  - Mostra de histogramas. <br><br>
+  - Histogramas;
+  - Filtragem por média;
+  - Filtragem por valor mínimo;
+  - Filtragem por valor máximo;
+  - Filtragem por mediana;
+  - Filtragem por Ordem;
+  - Filtragem por suavização conservativa;
+  - Filtragem gaussiana. <br><br>
