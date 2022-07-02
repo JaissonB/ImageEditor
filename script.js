@@ -561,9 +561,9 @@ function equalization() {
     var minCFDBlue = Math.min(...arrayCFDBlue);
 
     for (var i = 0; i < matrizEq.length; i+=4) {
-        matrizEq[i] = Math.floor(((arrayCFDRed[matrizEq[i]] - minCFDRed) / (canvas3.height*canvas3.width - minCFDRed)) * 256);
-        matrizEq[i+1] = Math.floor(((arrayCFDGreen[matrizEq[i+1]] - minCFDGreen) / (canvas3.height*canvas3.width - minCFDGreen)) * 256);
-        matrizEq[i+2] = Math.floor(((arrayCFDBlue[matrizEq[i+2]] - minCFDBlue) / (canvas3.height*canvas3.width - minCFDBlue)) * 256);
+        matrizEq[i] = Math.floor(((arrayCFDRed[matrizEq[i]] - minCFDRed) / (canvas3.height*canvas3.width - minCFDRed)) * 254);
+        matrizEq[i+1] = Math.floor(((arrayCFDGreen[matrizEq[i+1]] - minCFDGreen) / (canvas3.height*canvas3.width - minCFDGreen)) * 254);
+        matrizEq[i+2] = Math.floor(((arrayCFDBlue[matrizEq[i+2]] - minCFDBlue) / (canvas3.height*canvas3.width - minCFDBlue)) * 254);
     }
 
     ctxEq.putImageData(imageEq, 0, 0);
@@ -852,36 +852,47 @@ function filterSmoothing() {
     var arrayFilterRed = [];
     var arrayFilterGreen = [];
     var arrayFilterBlue = [];
-    var arrayFilterGray = [];
-    var pixelMean;
 
     for (let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4) {
         arrayFilterRed = [];
         arrayFilterGreen = [];
         arrayFilterBlue = [];
-        arrayFilterGray = [];
         for (let x = droppedLines; x >= -(droppedLines); x--) {
             for (let y = droppedLines; y >= -(droppedLines); y--) {
                 if ((x !== 0) || (y !== 0)) {
                     arrayFilterRed.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+0])));
                     arrayFilterGreen.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+1])));
                     arrayFilterBlue.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+2])));
-                    arrayFilterGray.push(Math.floor((matrizOrigin[i-(width*x)-(y*4)+0] + matrizOrigin[i-(width*x)-(y*4)+1] + matrizOrigin[i-(width*x)-(y*4)+2]) / 3));
                 }
             }
         }
-        pixelMean = (matrizFil[i] + matrizFil[i] + matrizFil[i]) / 3;
-        if (pixelMean < arrayFilterGray.sort((a, b) => a-b)[0]) {
+
+        if (matrizOrigin[i] < arrayFilterRed.sort((a, b) => a-b)[0]) {
             matrizFil[i] = arrayFilterRed.sort((a, b) => a-b)[0];
-            matrizFil[i+1] = arrayFilterGreen.sort((a, b) => a-b)[0];
-            matrizFil[i+2] = arrayFilterBlue.sort((a, b) => a-b)[0];
-        } else if (pixelMean > arrayFilterGray.sort((a, b) => a-b)[arrayFilterGray.length-1]) {
+        } else if (matrizOrigin[i] > arrayFilterRed.sort((a, b) => a-b)[arrayFilterRed.length-1]) {
             matrizFil[i] = arrayFilterRed.sort((a, b) => a-b)[arrayFilterRed.length-1];
+        } else {
+            matrizFil[i] = matrizOrigin[i];
+        }
+
+        if (matrizOrigin[i+1] < arrayFilterGreen.sort((a, b) => a-b)[0]) {
+            matrizFil[i+1] = arrayFilterGreen.sort((a, b) => a-b)[0];
+        } else if (matrizOrigin[i+1] > arrayFilterGreen.sort((a, b) => a-b)[arrayFilterGreen.length-1]) {
             matrizFil[i+1] = arrayFilterGreen.sort((a, b) => a-b)[arrayFilterGreen.length-1];
+        } else {
+            matrizFil[i+1] = matrizOrigin[i+1];
+        }
+
+        if (matrizOrigin[i+2] < arrayFilterBlue.sort((a, b) => a-b)[0]) {
+            matrizFil[i+2] = arrayFilterBlue.sort((a, b) => a-b)[0];
+        } else if (matrizOrigin[i+2] > arrayFilterBlue.sort((a, b) => a-b)[arrayFilterBlue.length-1]) {
             matrizFil[i+2] = arrayFilterBlue.sort((a, b) => a-b)[arrayFilterBlue.length-1];
+        } else {
+            matrizFil[i+2] = matrizOrigin[i+2];
         }
     }
-
+    console.log(matrizOrigin)
+    console.log(matrizFil)
     ctxEq.putImageData(imageFil, 0, 0);
     makeFilteredCharts(image3.data, matrizFil);
 }
@@ -895,11 +906,23 @@ function filterGaussian() {
     var width = canvasEq.width*4;
     var variation = parseFloat(document.querySelector('.input-set-variation').value);//Desvio
     var valueIndexFilter;
-    const PI = 3.14;
+    const PI = Math.PI;
     var sumRed = 0;
     var sumGreen = 0;
     var sumBlue = 0;
     var div = 0;
+
+    var arrFilterExample = [];
+    var arrFilterLine = [];
+
+    for (let x = droppedLines; x >= -(droppedLines); x--) {
+        for (let y = droppedLines; y >= -(droppedLines); y--) {
+            arrFilterLine.push((1 / (2 * PI * Math.pow(variation, 2))) * Math.exp(-((Math.pow(x, 2) + Math.pow(y, 2)) / (2 * Math.pow(variation, 2)))));
+        }
+        arrFilterExample.push(arrFilterLine);
+        arrFilterLine = [];
+    }
+    console.log(arrFilterExample)
 
     for (let i = width*droppedLines+droppedLines*4; i < matrizFil.length-(width*droppedLines+droppedLines*4); i+=4) {
         sumRed = 0;
